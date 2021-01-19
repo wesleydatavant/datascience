@@ -1,6 +1,6 @@
 import sys
 sys.path.append("../")
-import decklizer as dl
+import deka as dl
 import multiprocessing as mp
 import numpy as np
 import pandas as pd
