@@ -1,0 +1,53 @@
+site_name: Deka
+theme:
+  name: "material"
+  # custom_dir: overrides
+  palette:
+    - media: "(prefers-color-scheme: light)" 
+      scheme: default
+      toggle:
+        icon: material/toggle-switch-off-outline
+        name: Switch to dark mode
+    - media: "(prefers-color-scheme: dark)" 
+      scheme: slate
+      toggle:
+        icon: material/toggle-switch
+        name: Switch to light mode
+nav:
+  - About: index.md
+  - Solutions:
+      - Finding Good Patterns: solutions/SOLN_P1_Stock_Cutting.md
+  - Exercises:
+      - Finding Good Patterns: exercises/P1_Stock_Cutting.md
+markdown_extensions:
+  - admonition
+  - codehilite:
+      guess_lang: false
+  - toc:
+      permalink: true
+  - mdx_math
+  - pymdownx.highlight:
+      anchor_linenums: true
+  - pymdownx.inlinehilite
+  - pymdownx.snippets
+  - pymdownx.caret
+  - pymdownx.critic
+  - pymdownx.details
+  - pymdownx.emoji:
+      emoji_generator: !!python/name:pymdownx.emoji.to_svg
+  - pymdownx.magiclink
+  - pymdownx.mark
+  - pymdownx.smartsymbols
+  - pymdownx.tilde
+#   - pymdownx.superfences # causes weird hilighting
+extra_javascript: 
+    - https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.0/MathJax.js?config=TeX-AMS-MML_HTMLorMML
+extra:
+  generator: false
+  analytics:
+    provider: google
+    property: "UA-114664473-1"
+extra_css: [extra.css, styles.css]
+
+# for generating styles.css for codehilite see:
+# https://python-markdown.github.io/extensions/code_hilite/
