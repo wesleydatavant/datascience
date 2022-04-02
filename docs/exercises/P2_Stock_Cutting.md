@@ -1,4 +1,4 @@
-<a href="https://colab.research.google.com/github/wesleybeckner/deka/blob/main/notebooks/solutions/SOLN_P2_Stock_Cutting.ipynb" target="_parent"><img src="https://colab.research.google.com/assets/colab-badge.svg" alt="Open In Colab"/></a>
+<a href="https://colab.research.google.com/github/wesleybeckner/deka/blob/main/notebooks/exercises/P2_Stock_Cutting.ipynb" target="_parent"><img src="https://colab.research.google.com/assets/colab-badge.svg" alt="Open In Colab"/></a>
 
 # Stock Cutting Part 2:<br> Finding Good (But not Best) Patterns
 
@@ -153,22 +153,7 @@ def initt(W, val):
 def knapsack(widths, w, n, t):
     # n, w will be the row, column of our table
     # solve the basecase. 
-    if w == 0 or n == 0:
-        return 0
-
-    elif t[n][w] != -1:
-        return t[n][w]
-
-    # now include the conditionals
-    if widths[n-1] <= w:
-        t[n][w] = max(
-            knapsack(widths, w, n-1, t),
-            knapsack(widths, w-widths[n-1], n-1, t) + widths[n-1])
-        return t[n][w]
-
-    elif widths[n-1] > w:
-        t[n][w] = knapsack(widths, w, n-1, t)
-        return t[n][w]
+    pass
 ```
 
 Do the same thing for the `reconstruct` function. And while we're at it, let's change `N` to `n` and `W` to `w` so that our variables are consistent across both functions
@@ -176,16 +161,7 @@ Do the same thing for the `reconstruct` function. And while we're at it, let's c
 
 ```python
 def reconstruct(n, w, t, widths):
-    recon = set()
-    for j in range(n)[::-1]:
-        if t[j+1][w] not in t[j]:
-            recon.add(j)
-            w -= widths[j] # move columns in table lookup
-        if w < 0:
-            break
-        else:
-            continue
-    return recon
+    pass
 ```
 
 and lets test our new functions
@@ -229,30 +205,24 @@ for w in widths:
 
 In the above, we created new lists that properly signify the maximum number of units we could fit into the stock width. It is this list of items that we wish to feed into our knapsack problem. Rewrite our call to the knapsack problem below
 
+Also include neckin when you send this to knapsack
+
 
 ```python
 widths = [170, 280, 320]
+neckin = [5, 6, 7]
 W = 4000
-new = []
-for w in widths:
-    new += [w]*int(W/w)
-widths = new
+# modify call to knapsack
 
-t = initt(W, widths)
-best = knapsack(widths, W, len(widths), t)
-print(best)
-sack = reconstruct(len(widths), W, t, widths)
-pattern = Counter([widths[i] for i in list(sack)])
-pattern
 ```
 
-    4000
+    3999
 
 
 
 
 
-    Counter({170: 12, 280: 7})
+    Counter({175: 3, 327: 8, 286: 3})
 
 
 
@@ -263,28 +233,20 @@ As a last adjustment, we want to think of the loss from a pattern, not the total
 
 ```python
 widths = [170, 280, 320]
+neckin = [5, 6, 7]
 W = 4000
-new = []
-for w in widths:
-    new += [w]*int(W/w)
-widths = new
+# modify call to knapsack
 
-t = initt(W, widths)
-best = knapsack(widths, W, len(widths), t)
-loss = W - best
-print(f"Loss: {loss}")
-sack = reconstruct(len(widths), W, t, widths)
-pattern = Counter([widths[i] for i in list(sack)])
-pattern
 ```
 
-    Loss: 0
+    1
+    0.025
 
 
 
 
 
-    Counter({170: 12, 280: 7})
+    Counter({175: 3, 327: 8, 286: 3})
 
 
 
@@ -299,23 +261,34 @@ To over come this hurdle, we combine results from the knapsack problem (and any 
 
 ```python
 widths = [170, 280, 320]
+neckin = [5, 6, 7]
 W = 4000
+# modify call to knapsack
+# this new list will represent what we actually send to the function knapsack
 new = []
 for w in widths:
     new += [w]*int(W/w)
 widths = new
-
 t = initt(W, widths)
 best = knapsack(widths, W, len(widths), t)
 loss = W - best
-print(f"Loss: {loss}")
+print(loss)
+percent = loss/W*100
+print(percent)
 sack = reconstruct(len(widths), W, t, widths)
 pattern = Counter([widths[i] for i in list(sack)])
-print(pattern)
+pattern
 ```
 
-    Loss: 0
-    Counter({170: 12, 280: 7})
+    1
+    0.025
+
+
+
+
+
+    Counter({175: 3, 327: 8, 286: 3})
+
 
 
 ### 🎒 Exercise 4: permutate the list of unique widths
@@ -336,17 +309,8 @@ def seed_patterns(_widths, W, max_unique_layouts=3):
     for current_max in range(1, max_unique_layouts+1):
         pre_sacks = list(combinations(_widths, current_max))
         for widths in pre_sacks:
-            new = []
-            for w in widths:
-                new += [w]*int(W/w)
-            widths = new
-
-            t = initt(W, widths)
-            best = knapsack(widths, W, len(widths), t)
-            loss = W - best
-            sack = reconstruct(len(widths), W, t, widths)
-            pattern = Counter([widths[i] for i in list(sack)])
-            patterns.append([pattern, loss])
+            # your call to knapsack
+            pass
     return patterns
 ```
 
@@ -378,7 +342,7 @@ For giggles, check the speed of your function using `%%timeit`
 patterns = seed_patterns(_widths, W)
 ```
 
-    38 ms ± 1.22 ms per loop (mean ± std. dev. of 7 runs, 10 loops each)
+    69.9 ms ± 5.73 ms per loop (mean ± std. dev. of 7 runs, 10 loops each)
 
 
 ### 1.2.2 More permutations
@@ -394,3 +358,165 @@ but notice how:
 `[Counter({320: 9, 280: 4}), 0]`
 
 is also a valid solution to fitting the two slit widths on stock. And in fact, the second solution may be one we need to produce our orders in as few stock rolls as possible. We'll come back to this question later on.
+
+## 1.3 Comparison with old Alg
+
+
+```python
+%%timeit
+old_seed_patterns(_widths, [200, 200, 200], W, len(_widths), verbiose=False)
+```
+
+    717 ms ± 83.2 ms per loop (mean ± std. dev. of 7 runs, 1 loop each)
+
+
+
+```python
+import itertools
+import numpy as np
+```
+
+
+```python
+old_seed_patterns(_widths, [200, 200, 200], W, len(_widths), goal=10, verbiose=False)
+```
+
+
+
+
+    [array([Counter({170: 12, 280: 7}), 0], dtype=object),
+     array([Counter({170: 16, 320: 4}), 0], dtype=object),
+     array([Counter({280: 12, 320: 2}), 0], dtype=object),
+     array([Counter({320: 9, 280: 4}), 0], dtype=object),
+     array([Counter({170: 23}), 90], dtype=object),
+     array([Counter({280: 14}), 80], dtype=object),
+     array([Counter({320: 12}), 160], dtype=object)]
+
+
+
+
+```python
+def old_seed_patterns(w, q, B, n, max_combinations=3, goal=3, verbiose=True):
+    '''
+    creates a number of optimal patterns for deckling
+
+    Parameters
+    ----------
+    w: list
+        list of widths (int)
+    q: list
+        list of rolls for each width (int)
+    B: int
+        usuable width per mother roll
+    n: list
+        neck in for each width (int)
+    max_combinations: int, default 3
+        maximum number of unique products (widths) to have on a mother roll
+    goal: int, default 3
+        the desired number of recovered patterns from the knapsack problem
+        for every unique grouping of unique widths at max_combinations
+    verbiose: bool, default True
+        turns on/off print statements during execution
+
+    Returns
+    -------
+    patterns: list of lists
+        list of pattern, loss pairs. Pattern is a dictionary containing a width,
+        count pair that describes the pattern on the mother roll. Loss is the
+        percent material loss for the pattern.
+    layout: list
+        list of counts for every width on the mother roll. Layout is the best
+        possible pattern in terms of minimizing mother rolls to create the order
+        with a single pattern.
+    '''
+    # layout = make_best_pattern(q, w, n, B, verbiose=verbiose)
+    combos = []
+    for i in range(1,max_combinations+1)[::-1]:
+        combos += list(itertools.combinations(w,r=i))
+    if verbiose:
+        print('')
+        print("{} possible max {} combinations".format(len(combos),max_combinations))
+    patterns = []
+    for combo in combos:
+        for combo in list(itertools.permutations(combo)):
+            # due to the naive soln, combos of len 1 should be skipped.
+
+            # knapsack/store_patterns will only find one solution (0?) if
+            # the width is over half the length of the bin
+            if len(combo) == 1:
+                sub_goal = 1
+
+            # arbitrary conditional
+            elif sum(combo) > (B - min(combo)):
+                sub_goal = 1
+                # if B / combo[0] < 2:
+                #     sub_goal = 1
+                # else:
+                #     sub_goal = goal
+            else:
+                sub_goal = goal
+            # only provide knapsack with relevant variables
+            s = []
+            for i in combo:
+                s += (int(B/i)*[i])
+            t = initt(B,s)
+            knapsack(s, B, len(s), t)
+            t = np.array(t)
+            patterns += store_patterns(t, s, B, goal=sub_goal)
+            for j in range(3):
+                for i in patterns:
+                    for key in list(i[0].keys()):
+                        loss = (B - np.sum(np.array(list(i[0].keys())) *
+                            np.array(list(i[0].values())))) - key
+                        if loss > 0:
+                            i[0][key] += 1
+                            i[1] = loss
+    uni_list = []
+    for i in patterns:
+        if i not in uni_list:
+            uni_list.append(i)
+    patterns = uni_list
+    patterns = list(np.array(patterns)[np.array(patterns)[:,1]>=0])
+
+    # the naive patterns should be kept due to their usefullness
+    # in order fulfilment regardless of loss
+    # naive = init_layouts(B, w)
+    # for i in naive:
+    #     i = [-j for j in i]
+    #     patterns.append([dict(zip(w,i)),0])
+
+    if verbiose:
+        print("{} unique patterns found".format(len(patterns)))
+    return patterns
+
+def store_patterns(t, s, B, goal=5):
+    t = np.array(t)
+    patterns = []
+    bit = 1
+    empty = False
+    while (len(patterns) < goal):
+        found = 0
+        for pair in np.argwhere(t == t.flatten()[t.flatten().argsort()[-bit]]):
+            N, W = pair
+            sack = reconstruct(N, W, t, s)
+
+            # terminate search if we are returning empty sets
+            if sack == set():
+                empty = True
+                break
+
+            pattern = Counter(np.array(s)[list(sack)])
+            loss = B - np.sum(np.array(list(pattern.keys())) *
+                            np.array(list(pattern.values())))
+            if loss >= 0:
+                patterns.append([pattern, loss])
+            if len(patterns) >= goal:
+                break
+            found += 1
+            if found > 1:
+                break
+        bit += 1
+        if empty:
+            break
+    return patterns
+```

@@ -10,6 +10,10 @@
 
 In this project notebook we'll be laying the foundations of stock cutting. We'll begin by discussing the common dynamic programming problem: the knapsack problem
 
+Supporting Material
+
+* [Video](https://www.youtube.com/watch?v=8LusJS5-AGo) (15 mins)
+
 <br>
 
 ---
@@ -240,7 +244,7 @@ recon
 
 
 
-    {1, 3}
+    set()
 
 
 
@@ -282,12 +286,15 @@ from collections import Counter
 sack = reconstruct(len(val), W, t, wt)
 pattern = Counter(np.array(val)[list(sack)])
 pattern
+sack
+
+
 ```
 
 
 
 
-    Counter({2: 1, 6: 1})
+    {1, 3}
 
 
 
@@ -324,8 +331,34 @@ def test_small_bag():
 test_small_bag()
 ```
 
-    Optimal value found
-    Optimal items found
+
+    ---------------------------------------------------------------------------
+
+    TypeError                                 Traceback (most recent call last)
+
+    c:\Users\Malek MFG\pay\deka\notebooks\solutions\SOLN_P1_Stock_Cutting.ipynb Cell 31' in <cell line: 1>()
+    ----> <a href='vscode-notebook-cell:/c%3A/Users/Malek%20MFG/pay/deka/notebooks/solutions/SOLN_P1_Stock_Cutting.ipynb#ch0000030?line=0'>1</a> test_small_bag()
+
+
+    c:\Users\Malek MFG\pay\deka\notebooks\solutions\SOLN_P1_Stock_Cutting.ipynb Cell 30' in test_small_bag()
+          <a href='vscode-notebook-cell:/c%3A/Users/Malek%20MFG/pay/deka/notebooks/solutions/SOLN_P1_Stock_Cutting.ipynb#ch0000029?line=7'>8</a> max_val = 80
+          <a href='vscode-notebook-cell:/c%3A/Users/Malek%20MFG/pay/deka/notebooks/solutions/SOLN_P1_Stock_Cutting.ipynb#ch0000029?line=8'>9</a> max_items = [50, 30]
+    ---> <a href='vscode-notebook-cell:/c%3A/Users/Malek%20MFG/pay/deka/notebooks/solutions/SOLN_P1_Stock_Cutting.ipynb#ch0000029?line=10'>11</a> t = initt(W, val)
+         <a href='vscode-notebook-cell:/c%3A/Users/Malek%20MFG/pay/deka/notebooks/solutions/SOLN_P1_Stock_Cutting.ipynb#ch0000029?line=11'>12</a> best = knapsack(wt, val, W, len(val), t)
+         <a href='vscode-notebook-cell:/c%3A/Users/Malek%20MFG/pay/deka/notebooks/solutions/SOLN_P1_Stock_Cutting.ipynb#ch0000029?line=12'>13</a> sack = reconstruct(len(val), W, t, wt)
+
+
+    c:\Users\Malek MFG\pay\deka\notebooks\solutions\SOLN_P1_Stock_Cutting.ipynb Cell 35' in initt(B, lens)
+         <a href='vscode-notebook-cell:/c%3A/Users/Malek%20MFG/pay/deka/notebooks/solutions/SOLN_P1_Stock_Cutting.ipynb#ch0000034?line=55'>56</a> """
+         <a href='vscode-notebook-cell:/c%3A/Users/Malek%20MFG/pay/deka/notebooks/solutions/SOLN_P1_Stock_Cutting.ipynb#ch0000034?line=56'>57</a> t, the returned table, will be a list of lists, but if transformed to 
+         <a href='vscode-notebook-cell:/c%3A/Users/Malek%20MFG/pay/deka/notebooks/solutions/SOLN_P1_Stock_Cutting.ipynb#ch0000034?line=57'>58</a> an array it takes the shape of the number of products + 1 (len(s) + 1) 
+         <a href='vscode-notebook-cell:/c%3A/Users/Malek%20MFG/pay/deka/notebooks/solutions/SOLN_P1_Stock_Cutting.ipynb#ch0000034?line=58'>59</a> by the usable width + 1 (B + 1)
+         <a href='vscode-notebook-cell:/c%3A/Users/Malek%20MFG/pay/deka/notebooks/solutions/SOLN_P1_Stock_Cutting.ipynb#ch0000034?line=59'>60</a> """
+         <a href='vscode-notebook-cell:/c%3A/Users/Malek%20MFG/pay/deka/notebooks/solutions/SOLN_P1_Stock_Cutting.ipynb#ch0000034?line=60'>61</a> # We initialize the matrix with -1 at first.
+    ---> <a href='vscode-notebook-cell:/c%3A/Users/Malek%20MFG/pay/deka/notebooks/solutions/SOLN_P1_Stock_Cutting.ipynb#ch0000034?line=61'>62</a> return [[-1 for i in range(B + 1)] for j in range(lens + 1)]
+
+
+    TypeError: can only concatenate list (not "int") to list
 
 
 
@@ -356,8 +389,34 @@ def test_val_weight_equality():
 test_val_weight_equality()
 ```
 
-    Optimal value found
-    Optimal items found
+
+    ---------------------------------------------------------------------------
+
+    TypeError                                 Traceback (most recent call last)
+
+    c:\Users\Malek MFG\pay\deka\notebooks\solutions\SOLN_P1_Stock_Cutting.ipynb Cell 33' in <cell line: 1>()
+    ----> <a href='vscode-notebook-cell:/c%3A/Users/Malek%20MFG/pay/deka/notebooks/solutions/SOLN_P1_Stock_Cutting.ipynb#ch0000032?line=0'>1</a> test_val_weight_equality()
+
+
+    c:\Users\Malek MFG\pay\deka\notebooks\solutions\SOLN_P1_Stock_Cutting.ipynb Cell 32' in test_val_weight_equality()
+          <a href='vscode-notebook-cell:/c%3A/Users/Malek%20MFG/pay/deka/notebooks/solutions/SOLN_P1_Stock_Cutting.ipynb#ch0000031?line=6'>7</a> max_val = 14
+          <a href='vscode-notebook-cell:/c%3A/Users/Malek%20MFG/pay/deka/notebooks/solutions/SOLN_P1_Stock_Cutting.ipynb#ch0000031?line=7'>8</a> max_items = Counter([5, 5, 2, 2])
+    ---> <a href='vscode-notebook-cell:/c%3A/Users/Malek%20MFG/pay/deka/notebooks/solutions/SOLN_P1_Stock_Cutting.ipynb#ch0000031?line=9'>10</a> t = initt(W, val)
+         <a href='vscode-notebook-cell:/c%3A/Users/Malek%20MFG/pay/deka/notebooks/solutions/SOLN_P1_Stock_Cutting.ipynb#ch0000031?line=10'>11</a> best = knapsack(wt, val, W, len(val), t)
+         <a href='vscode-notebook-cell:/c%3A/Users/Malek%20MFG/pay/deka/notebooks/solutions/SOLN_P1_Stock_Cutting.ipynb#ch0000031?line=11'>12</a> sack = reconstruct(len(val), W, t, wt)
+
+
+    c:\Users\Malek MFG\pay\deka\notebooks\solutions\SOLN_P1_Stock_Cutting.ipynb Cell 35' in initt(B, lens)
+         <a href='vscode-notebook-cell:/c%3A/Users/Malek%20MFG/pay/deka/notebooks/solutions/SOLN_P1_Stock_Cutting.ipynb#ch0000034?line=55'>56</a> """
+         <a href='vscode-notebook-cell:/c%3A/Users/Malek%20MFG/pay/deka/notebooks/solutions/SOLN_P1_Stock_Cutting.ipynb#ch0000034?line=56'>57</a> t, the returned table, will be a list of lists, but if transformed to 
+         <a href='vscode-notebook-cell:/c%3A/Users/Malek%20MFG/pay/deka/notebooks/solutions/SOLN_P1_Stock_Cutting.ipynb#ch0000034?line=57'>58</a> an array it takes the shape of the number of products + 1 (len(s) + 1) 
+         <a href='vscode-notebook-cell:/c%3A/Users/Malek%20MFG/pay/deka/notebooks/solutions/SOLN_P1_Stock_Cutting.ipynb#ch0000034?line=58'>59</a> by the usable width + 1 (B + 1)
+         <a href='vscode-notebook-cell:/c%3A/Users/Malek%20MFG/pay/deka/notebooks/solutions/SOLN_P1_Stock_Cutting.ipynb#ch0000034?line=59'>60</a> """
+         <a href='vscode-notebook-cell:/c%3A/Users/Malek%20MFG/pay/deka/notebooks/solutions/SOLN_P1_Stock_Cutting.ipynb#ch0000034?line=60'>61</a> # We initialize the matrix with -1 at first.
+    ---> <a href='vscode-notebook-cell:/c%3A/Users/Malek%20MFG/pay/deka/notebooks/solutions/SOLN_P1_Stock_Cutting.ipynb#ch0000034?line=61'>62</a> return [[-1 for i in range(B + 1)] for j in range(lens + 1)]
+
+
+    TypeError: can only concatenate list (not "int") to list
 
 
 ## 1.4 Save our functions

@@ -10,6 +10,10 @@
 
 In this project notebook we'll be laying the foundations of stock cutting. We'll begin by discussing the common dynamic programming problem: the knapsack problem
 
+Supporting Material
+
+* [Video](https://www.youtube.com/watch?v=8LusJS5-AGo) (15 mins)
+
 <br>
 
 ---

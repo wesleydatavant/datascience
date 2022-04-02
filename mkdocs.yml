@@ -16,9 +16,13 @@ theme:
 nav:
   - About: index.md
   - Solutions:
-      - Finding Good Patterns: solutions/SOLN_P1_Stock_Cutting.md
+      - The Knapsack Problem: solutions/SOLN_P1_Stock_Cutting.md
+      - Finding More Patterns: solutions/SOLN_P2_Stock_Cutting.md
+      - The Column Generation Method: solutions/SOLN_P3_Stock_Cutting.md
   - Exercises:
       - Finding Good Patterns: exercises/P1_Stock_Cutting.md
+      - Finding More Patterns: exercises/P2_Stock_Cutting.md
+      - The Column Generation Method: exercises/P3_Stock_Cutting.md
 markdown_extensions:
   - admonition
   - codehilite:
