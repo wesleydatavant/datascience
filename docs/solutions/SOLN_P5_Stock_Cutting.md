@@ -582,6 +582,7 @@ n = [2, 2, 2]
 q = [879, 244, 181]
 W = 4160
 ans = 59
+
 import math
 make_best_pattern(q, widths, n, usable_width=W, verbiose=True)
 ```
