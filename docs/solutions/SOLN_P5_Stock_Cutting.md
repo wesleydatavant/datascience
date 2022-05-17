@@ -1,6 +1,6 @@
 <a href="https://colab.research.google.com/github/wesleybeckner/deka/blob/main/notebooks/solutions/SOLN_P5_Stock_Cutting.ipynb" target="_parent"><img src="https://colab.research.google.com/assets/colab-badge.svg" alt="Open In Colab"/></a>
 
-# Stock Cutting Part 5:<br> Edge Cases and API
+# Stock Cutting Part 5:<br> Edge Cases
 
 <br>
 
@@ -8,13 +8,13 @@
 
 <br>
 
-In this project notebook we'll be 
+In this project notebook we'll be exploring edge cases. Specifically, how do we use the building blocks we've created so far to account for user restrictions on layouts and patterns.
 
 <br>
 
 ---
 
-## 1.0: Import Functions and Libraries
+## 1: Import Functions and Libraries
 
 
 ```python
@@ -269,7 +269,7 @@ test_stock_cutting_2()
     4, Counter({172: 15, 236: 6, 160: 1})
 
 
-## When we need to limit the number of patterns in the layouts
+## 2: When we need to limit the number of patterns in the layouts
 
 let's suppose we want a solution that only has 2 patterns in any given layout. When using the column generation method we used `seed_patterns` to create the naive layouts:
 
@@ -377,7 +377,7 @@ for quant, pattern in zip(X, patterns):
 
 In this case, we actually get an answer that is better than the column generation method!
 
-## When we need to limit the number of layouts in a solution
+## 3: When we need to limit the number of layouts in a solution
 
 When we need to limit the total number of layouts in a solution, we will have to make multiple calls to the linear programming step and compare the results of each call. 
 
@@ -503,7 +503,7 @@ for current_max in range(1, max_patterns+1):
     
 
 
-## When we need a single layout
+## 4: When we need a single layout
 
 
 ```python
