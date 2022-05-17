@@ -5,8 +5,9 @@
 Deka is a python library containing a column generation/knapsack solution algorithm
 
 1. The Knapsack problem
-2. Good but not best patterns
-3. Linear optimization
+2. Finding Other Patterns
+3. The Column Generation Method
+4. Unit Tests
 4. Multithread processing
 5. API and messaging
 6. Data archiving

@@ -88,7 +88,8 @@ def seed_patterns(_widths, W, max_unique_layouts=3):
             loss = W - best
             sack = reconstruct(len(widths), W, t, widths)
             pattern = Counter([widths[i] for i in list(sack)])
-            patterns.append([pattern, loss])
+            if [pattern, loss] not in patterns:
+                patterns.append([pattern, loss])
     return patterns
 
 def initt(W, val):
