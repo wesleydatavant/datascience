@@ -505,6 +505,62 @@ for current_max in range(1, max_patterns+1):
 
 ## 4: When we need a single layout
 
+Sometimes, we may want to fullfill our order in a single layout. This problem is actually not as difficult to solve as the others, as the restriction to a single layout forces us to appropriate cuts such that the quantities ordered of each width are accurately reflected. In other words, if we want 1 width of 2, 2 widths of 3, and 1 width of 4 then our layout should as best as possible reflect a ratio of 1:2:1 between our products 2, 3, and 4. Let's code this up.
+
+
+```python
+widths = [170, 234, 158]
+n = [2, 2, 2]
+w = [i+j for i,j in zip(widths,n)]
+q = [879, 244, 181]
+W = 4160
+ans = 59
+
+# we will want there to be at least 1 cut of each width, i.e. max(1, calc)
+# calc: proportion_of_item_in_orders * quantity_of_item_that_can_fit_in_usable_width
+layout = [max(1, math.floor(i/sum(q)*W/j)) for i,j in zip(q,w)]
+display(layout)
+```
+
+
+    [16, 3, 3]
+
+
+after we create this initial layout we will have to check that we did not go over the usable width, `W`, and if so remove any items that are closest or above their ratio in the order quantites, `q`
+
+
+```python
+[math.remainder(i/sum(q)*W/j, 1) for i,j in zip(q,w) ]
+```
+
+
+
+
+    [0.3033242973320043, 0.2983258812519498, -0.39110429447852724]
+
+
+
+`math.remainder(x, y)` will return the remainder of x - yn where yn is the closest integer to x. We can use this to determine which order quantities were rounded down the most from their ideal value.
+
+
+```python
+# since we took the floor in the calculation for layout, the remainder
+# will tell us how much abov
+remainder = [math.remainder(i/sum(q)*W/j, 1) if (math.remainder(i/sum(q)*W/j, 1)
+                                                        < 0) else -1 for i,j in zip(q,w) ]
+display(remainder)
+order = np.argsort(remainder)
+display(order)
+```
+
+
+    [-1, -1, -0.39110429447852724]
+
+
+
+    array([0, 1, 2])
+
+
 
 ```python
 def make_best_pattern(q, w, n, usable_width=4160, verbiose=True):
