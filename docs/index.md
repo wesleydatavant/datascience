@@ -6,5 +6,5 @@ layout: default
 
 A python repository containing data science notebooks and algorithms
 
-Visit the [github repo](https://github.com/wesleybeckner/deka) to access all materials and code
+Visit the [github repo](https://github.com/wesleydatavant/datascience) to access all materials and code
 
