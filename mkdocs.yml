@@ -15,7 +15,7 @@ theme:
         name: Switch to light mode
 nav:
   - About: index.md
-  - Vectorized Distance Calculations: Routing_Distances.md
+  - Vectorized Distance Calculations: vectorized_distances.md
 markdown_extensions:
   - admonition
   - codehilite:

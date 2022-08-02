@@ -7,12 +7,12 @@ table {
     white-space: nowrap;
   }
 :root {
-  --md-primary-fg-color:        #D37295;
-  --md-primary-fg-color--light: #d499af;
-  --md-primary-fg-color--dark:  #d4024f;
+  --md-primary-fg-color:        #B07AA1;
+  --md-primary-fg-color--light: #eeafdc;
+  --md-primary-fg-color--dark:  #7d436d;
 }
 [data-md-color-scheme="default"] {
-  --md-primary-fg-color:        #D37295;
-  --md-primary-fg-color--light: #d499af;
-  --md-primary-fg-color--dark:  #d4024f;
+  --md-primary-fg-color:        #B07AA1;
+  --md-primary-fg-color--light: #eeafdc;
+  --md-primary-fg-color--dark:  #7d436d;
 }
