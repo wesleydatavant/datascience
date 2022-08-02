@@ -1,0 +1,16 @@
+table {
+    display: block;
+    max-width: -moz-fit-content;
+    max-width: fit-content;
+    margin: 0 auto;
+    overflow-x: scroll;
+    white-space: nowrap;
+  }
+:root {
+  --md-primary-fg-color:        #D37295;
+  --md-primary-fg-color--light: #d499af;
+  --md-primary-fg-color--dark:  #d4024f;
+}
+[data-md-color-scheme="slate"] {
+  --md-hue: 210; 
+}

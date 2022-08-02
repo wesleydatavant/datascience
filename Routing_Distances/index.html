@@ -1,0 +1,877 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+      
+      
+      <link rel="icon" href="../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.3.1, mkdocs-material-8.3.9">
+    
+    
+      
+        <title>Vectorized Distance Calculations - Data Science</title>
+      
+    
+    
+      <link rel="stylesheet" href="../assets/stylesheets/main.1d29e8d0.min.css">
+      
+        
+        <link rel="stylesheet" href="../assets/stylesheets/palette.cbb835fc.min.css">
+        
+      
+      
+    
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+      <link rel="stylesheet" href="../extra.css">
+    
+      <link rel="stylesheet" href="../styles.css">
+    
+    <script>__md_scope=new URL("..",location),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+  
+
+
+  
+  
+
+
+  <script>window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)},ga.l=+new Date,ga("create","UA-114664473-1","auto"),ga("set","anonymizeIp",!0),ga("send","pageview"),document.addEventListener("DOMContentLoaded",function(){document.forms.search&&document.forms.search.query.addEventListener("blur",function(){var e;this.value&&(e=document.location.pathname,ga("send","pageview",e+"?q="+this.value))}),"undefined"!=typeof location$&&location$.subscribe(function(e){ga("send","pageview",e.pathname)})})</script>
+  <script async src="https://www.google-analytics.com/analytics.js"></script>
+
+
+    
+    
+  </head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="" data-md-color-accent="">
+  
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&"object"==typeof palette.color)for(var key of Object.keys(palette.color))document.body.setAttribute("data-md-color-"+key,palette.color[key])</script>
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#routing-distances" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+<header class="md-header" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href=".." title="Data Science" class="md-header__button md-logo" aria-label="Data Science" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54Z"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3V6m0 5h18v2H3v-2m0 5h18v2H3v-2Z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Data Science
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Vectorized Distance Calculations
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      <form class="md-header__option" data-md-component="palette">
+        
+          
+          
+          <input class="md-option" data-md-color-media="(prefers-color-scheme: light)" data-md-color-scheme="default" data-md-color-primary="" data-md-color-accent=""  aria-label="Switch to dark mode"  type="radio" name="__palette" id="__palette_1">
+          
+            <label class="md-header__button md-icon" title="Switch to dark mode" for="__palette_2" hidden>
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M17 6H7c-3.31 0-6 2.69-6 6s2.69 6 6 6h10c3.31 0 6-2.69 6-6s-2.69-6-6-6zm0 10H7c-2.21 0-4-1.79-4-4s1.79-4 4-4h10c2.21 0 4 1.79 4 4s-1.79 4-4 4zM7 9c-1.66 0-3 1.34-3 3s1.34 3 3 3 3-1.34 3-3-1.34-3-3-3z"/></svg>
+            </label>
+          
+        
+          
+          
+          <input class="md-option" data-md-color-media="(prefers-color-scheme: dark)" data-md-color-scheme="slate" data-md-color-primary="" data-md-color-accent=""  aria-label="Switch to light mode"  type="radio" name="__palette" id="__palette_2">
+          
+            <label class="md-header__button md-icon" title="Switch to light mode" for="__palette_1" hidden>
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M17 7H7a5 5 0 0 0-5 5 5 5 0 0 0 5 5h10a5 5 0 0 0 5-5 5 5 0 0 0-5-5m0 8a3 3 0 0 1-3-3 3 3 0 0 1 3-3 3 3 0 0 1 3 3 3 3 0 0 1-3 3Z"/></svg>
+            </label>
+          
+        
+      </form>
+    
+    
+    
+      <label class="md-header__button md-icon" for="__search">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5Z"/></svg>
+      </label>
+      <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5Z"/></svg>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12Z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" aria-label="Clear" tabindex="-1">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12 19 6.41Z"/></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+<nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href=".." title="Data Science" class="md-nav__button md-logo" aria-label="Data Science" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54Z"/></svg>
+
+    </a>
+    Data Science
+  </label>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href=".." class="md-nav__link">
+        About
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+    
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" data-md-toggle="toc" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          Vectorized Distance Calculations
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        Vectorized Distance Calculations
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#imports" class="md-nav__link">
+    Imports
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#sample-data" class="md-nav__link">
+    Sample Data
+  </a>
+  
+    <nav class="md-nav" aria-label="Sample Data">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#pseudo-large-dataset-for-speed-check" class="md-nav__link">
+    Pseudo Large Dataset for Speed Check
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#euclidean-distance" class="md-nav__link">
+    Euclidean Distance
+  </a>
+  
+    <nav class="md-nav" aria-label="Euclidean Distance">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#speed-check" class="md-nav__link">
+    Speed Check
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#haversine-distance" class="md-nav__link">
+    Haversine Distance
+  </a>
+  
+    <nav class="md-nav" aria-label="Haversine Distance">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#non-vectorized" class="md-nav__link">
+    Non Vectorized
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#vectorized" class="md-nav__link">
+    Vectorized
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#speed-check_1" class="md-nav__link">
+    Speed Check
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#imports" class="md-nav__link">
+    Imports
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#sample-data" class="md-nav__link">
+    Sample Data
+  </a>
+  
+    <nav class="md-nav" aria-label="Sample Data">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#pseudo-large-dataset-for-speed-check" class="md-nav__link">
+    Pseudo Large Dataset for Speed Check
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#euclidean-distance" class="md-nav__link">
+    Euclidean Distance
+  </a>
+  
+    <nav class="md-nav" aria-label="Euclidean Distance">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#speed-check" class="md-nav__link">
+    Speed Check
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#haversine-distance" class="md-nav__link">
+    Haversine Distance
+  </a>
+  
+    <nav class="md-nav" aria-label="Haversine Distance">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#non-vectorized" class="md-nav__link">
+    Non Vectorized
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#vectorized" class="md-nav__link">
+    Vectorized
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#speed-check_1" class="md-nav__link">
+    Speed Check
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          <div class="md-content" data-md-component="content">
+            <article class="md-content__inner md-typeset">
+              
+                
+
+
+<p><a href="https://colab.research.google.com/github/wesleydatavant/datascience/blob/main/notebooks/Routing_Distances.ipynb" target="_parent"><img src="https://colab.research.google.com/assets/colab-badge.svg" alt="Open In Colab"/></a></p>
+<h1 id="routing-distances">Routing Distances<a class="headerlink" href="#routing-distances" title="Permanent link">&para;</a></h1>
+<p><br></p>
+<hr />
+<p><br></p>
+<p>In this project notebook we'll be comparing for loop and vectorized implemented distance calculations. With large datasets, the vectorized formulation becomes more than 1000 times faster!</p>
+<p><br></p>
+<hr />
+<h2 id="imports">Imports<a class="headerlink" href="#imports" title="Permanent link">&para;</a></h2>
+<div class="codehilite"><pre><span></span><code><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+
+<span class="kn">from</span> <span class="nn">scipy.spatial.distance</span> <span class="kn">import</span> <span class="n">cdist</span>
+<span class="kn">from</span> <span class="nn">haversine</span> <span class="kn">import</span> <span class="n">haversine</span><span class="p">,</span> <span class="n">Unit</span>
+<span class="kn">from</span> <span class="nn">math</span> <span class="kn">import</span> <span class="n">isclose</span>
+</code></pre></div>
+
+<h2 id="sample-data">Sample Data<a class="headerlink" href="#sample-data" title="Permanent link">&para;</a></h2>
+<div class="codehilite"><pre><span></span><code><span class="n">tx_json</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;city&quot;</span><span class="p">:{</span><span class="s2">&quot;4&quot;</span><span class="p">:</span><span class="s2">&quot;Dallas&quot;</span><span class="p">,</span><span class="s2">&quot;5&quot;</span><span class="p">:</span><span class="s2">&quot;Houston&quot;</span><span class="p">,</span><span class="s2">&quot;33&quot;</span><span class="p">:</span><span class="s2">&quot;Austin&quot;</span><span class="p">,</span><span class="s2">&quot;55&quot;</span><span class="p">:</span><span class="s2">&quot;Fort Worth&quot;</span><span class="p">},</span>
+           <span class="s2">&quot;state_name&quot;</span><span class="p">:{</span><span class="s2">&quot;4&quot;</span><span class="p">:</span><span class="s2">&quot;Texas&quot;</span><span class="p">,</span><span class="s2">&quot;5&quot;</span><span class="p">:</span><span class="s2">&quot;Texas&quot;</span><span class="p">,</span><span class="s2">&quot;33&quot;</span><span class="p">:</span><span class="s2">&quot;Texas&quot;</span><span class="p">,</span><span class="s2">&quot;55&quot;</span><span class="p">:</span><span class="s2">&quot;Texas&quot;</span><span class="p">},</span>
+           <span class="s2">&quot;lat&quot;</span><span class="p">:{</span><span class="s2">&quot;4&quot;</span><span class="p">:</span><span class="mf">32.7935</span><span class="p">,</span><span class="s2">&quot;5&quot;</span><span class="p">:</span><span class="mf">29.786</span><span class="p">,</span><span class="s2">&quot;33&quot;</span><span class="p">:</span><span class="mf">30.3005</span><span class="p">,</span><span class="s2">&quot;55&quot;</span><span class="p">:</span><span class="mf">32.7817</span><span class="p">},</span>
+           <span class="s2">&quot;lng&quot;</span><span class="p">:{</span><span class="s2">&quot;4&quot;</span><span class="p">:</span><span class="o">-</span><span class="mf">96.7667</span><span class="p">,</span><span class="s2">&quot;5&quot;</span><span class="p">:</span><span class="o">-</span><span class="mf">95.3885</span><span class="p">,</span><span class="s2">&quot;33&quot;</span><span class="p">:</span><span class="o">-</span><span class="mf">97.7522</span><span class="p">,</span><span class="s2">&quot;55&quot;</span><span class="p">:</span><span class="o">-</span><span class="mf">97.3474</span><span class="p">}}</span>
+<span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">tx_json</span><span class="p">)</span>
+<span class="n">lat</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="s1">&#39;lat&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">values</span>
+<span class="n">lng</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="s1">&#39;lng&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">values</span>
+<span class="n">x</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="n">lat</span><span class="p">,</span> <span class="n">lng</span><span class="p">])</span><span class="o">.</span><span class="n">T</span>
+<span class="n">y</span> <span class="o">=</span> <span class="n">x</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+</code></pre></div>
+
+<h3 id="pseudo-large-dataset-for-speed-check">Pseudo Large Dataset for Speed Check<a class="headerlink" href="#pseudo-large-dataset-for-speed-check" title="Permanent link">&para;</a></h3>
+<div class="codehilite"><pre><span></span><code><span class="n">a</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">tile</span><span class="p">(</span><span class="n">x</span><span class="o">.</span><span class="n">T</span><span class="p">,</span><span class="mi">1000</span><span class="p">)</span><span class="o">.</span><span class="n">T</span>
+<span class="n">b</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">tile</span><span class="p">(</span><span class="n">y</span><span class="o">.</span><span class="n">T</span><span class="p">,</span><span class="mi">1000</span><span class="p">)</span><span class="o">.</span><span class="n">T</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">a</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">b</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
+</code></pre></div>
+
+<div class="codehilite"><pre><span></span><code>(4000, 2)
+(4000, 2)
+</code></pre></div>
+
+<h2 id="euclidean-distance">Euclidean Distance<a class="headerlink" href="#euclidean-distance" title="Permanent link">&para;</a></h2>
+<div class="codehilite"><pre><span></span><code><span class="k">def</span> <span class="nf">dist</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">):</span>
+
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    returns the geometric distance of two long lat coordinates</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    a : numpy array</span>
+<span class="sd">        the long lat coordinate of the patient</span>
+<span class="sd">    b : numpy array</span>
+<span class="sd">        the long lat coordinate of the site(s). can either be a single</span>
+<span class="sd">    site or multiple sites</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    distances : array or float</span>
+<span class="sd">        dist will return a float if only a single site is specified in b,</span>
+<span class="sd">        otherwise will return an array</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="c1"># if a is a list of patient zips</span>
+    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">a</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">:</span>
+        <span class="n">a</span> <span class="o">=</span> <span class="n">a</span><span class="p">[:,</span> <span class="kc">None</span><span class="p">,</span> <span class="p">:]</span>
+        <span class="n">b</span> <span class="o">=</span> <span class="n">b</span><span class="p">[</span><span class="kc">None</span><span class="p">,</span> <span class="p">:,</span> <span class="p">:]</span>
+
+    <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(((</span><span class="n">a</span><span class="o">-</span><span class="n">b</span><span class="p">)</span><span class="o">**</span><span class="mi">2</span><span class="p">)</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">axis</span><span class="o">=-</span><span class="mi">1</span><span class="p">))</span>
+
+    <span class="c1"># else if b is a list of site zips</span>
+    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">b</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">:</span>
+        <span class="n">b</span> <span class="o">=</span> <span class="n">b</span><span class="o">.</span><span class="n">T</span>
+
+    <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">((</span><span class="n">a</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">-</span> <span class="n">b</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span><span class="o">**</span><span class="mi">2</span> <span class="o">+</span> <span class="p">(</span><span class="n">a</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">-</span> <span class="n">b</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span><span class="o">**</span><span class="mi">2</span><span class="p">)</span>
+
+<span class="k">def</span> <span class="nf">dist_no_np</span><span class="p">(</span><span class="n">a_</span><span class="p">,</span> <span class="n">b_</span><span class="p">):</span>
+    <span class="n">res</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">for</span> <span class="n">a</span> <span class="ow">in</span> <span class="n">a_</span><span class="p">:</span>
+        <span class="n">ress</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">for</span> <span class="n">b</span> <span class="ow">in</span> <span class="n">b_</span><span class="p">:</span>
+            <span class="n">ress</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">((</span><span class="n">a</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">-</span> <span class="n">b</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span><span class="o">**</span><span class="mi">2</span> <span class="o">+</span> <span class="p">(</span><span class="n">a</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">-</span> <span class="n">b</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span><span class="o">**</span><span class="mi">2</span><span class="p">))</span>
+        <span class="n">res</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">ress</span><span class="p">)</span>
+</code></pre></div>
+
+<h3 id="speed-check">Speed Check<a class="headerlink" href="#speed-check" title="Permanent link">&para;</a></h3>
+<div class="codehilite"><pre><span></span><code><span class="o">%%</span><span class="n">timeit</span>
+<span class="n">dist</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">)</span>
+</code></pre></div>
+
+<div class="codehilite"><pre><span></span><code>473 µs ± 19.1 µs per loop (mean ± std. dev. of 7 runs, 1,000 loops each)
+</code></pre></div>
+
+<div class="codehilite"><pre><span></span><code><span class="o">%%</span><span class="n">timeit</span>
+<span class="n">dist_no_np</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">)</span>
+</code></pre></div>
+
+<div class="codehilite"><pre><span></span><code>161 ms ± 457 µs per loop (mean ± std. dev. of 7 runs, 10 loops each)
+</code></pre></div>
+
+<div class="codehilite"><pre><span></span><code><span class="o">%%</span><span class="n">timeit</span>
+<span class="n">cdist</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">,</span> <span class="n">metric</span><span class="o">=</span><span class="s1">&#39;euclidean&#39;</span><span class="p">)</span>
+</code></pre></div>
+
+<div class="codehilite"><pre><span></span><code>126 µs ± 482 ns per loop (mean ± std. dev. of 7 runs, 10,000 loops each)
+</code></pre></div>
+
+<div class="codehilite"><pre><span></span><code><span class="n">euclid_result</span> <span class="o">=</span> <span class="n">dist</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">)</span>
+</code></pre></div>
+
+<div class="codehilite"><pre><span></span><code><span class="n">cdist</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">metric</span><span class="o">=</span><span class="s1">&#39;euclidean&#39;</span><span class="p">)</span>
+</code></pre></div>
+
+<div class="codehilite"><pre><span></span><code>array([[0.        , 3.30824598, 2.68071991, 0.58081988],
+       [3.30824598, 0.        , 2.41904691, 3.57931665],
+       [2.68071991, 2.41904691, 0.        , 2.51400407],
+       [0.58081988, 3.57931665, 2.51400407, 0.        ]])
+</code></pre></div>
+
+<h2 id="haversine-distance">Haversine Distance<a class="headerlink" href="#haversine-distance" title="Permanent link">&para;</a></h2>
+<h3 id="non-vectorized">Non Vectorized<a class="headerlink" href="#non-vectorized" title="Permanent link">&para;</a></h3>
+<div class="codehilite"><pre><span></span><code><span class="c1"># if you have the local file https://simplemaps.com/data/us-cities</span>
+<span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s2">&quot;../../Downloads/simplemaps_uscities_basicv1.75/uscities.csv&quot;</span><span class="p">)</span>
+<span class="n">df</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">loc</span><span class="p">[(</span><span class="n">df</span><span class="p">[</span><span class="s1">&#39;city&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">isin</span><span class="p">([</span><span class="s1">&#39;Austin&#39;</span><span class="p">,</span> <span class="s1">&#39;Dallas&#39;</span><span class="p">,</span> <span class="s1">&#39;Fort Worth&#39;</span><span class="p">,</span> <span class="s1">&#39;Houston&#39;</span><span class="p">]))</span> <span class="o">&amp;</span>
+       <span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="s1">&#39;state_id&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="s1">&#39;TX&#39;</span><span class="p">)]</span>
+
+<span class="c1"># df[[&#39;city&#39;, &#39;state_name&#39;, &#39;lat&#39;, &#39;lng&#39;]].to_json()</span>
+</code></pre></div>
+
+<div class="codehilite"><pre><span></span><code><span class="k">def</span> <span class="nf">test_haversine</span><span class="p">():</span>
+    <span class="n">tx_json</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;city&quot;</span><span class="p">:{</span><span class="s2">&quot;4&quot;</span><span class="p">:</span><span class="s2">&quot;Dallas&quot;</span><span class="p">,</span><span class="s2">&quot;5&quot;</span><span class="p">:</span><span class="s2">&quot;Houston&quot;</span><span class="p">,</span><span class="s2">&quot;33&quot;</span><span class="p">:</span><span class="s2">&quot;Austin&quot;</span><span class="p">,</span><span class="s2">&quot;55&quot;</span><span class="p">:</span><span class="s2">&quot;Fort Worth&quot;</span><span class="p">},</span>
+               <span class="s2">&quot;state_name&quot;</span><span class="p">:{</span><span class="s2">&quot;4&quot;</span><span class="p">:</span><span class="s2">&quot;Texas&quot;</span><span class="p">,</span><span class="s2">&quot;5&quot;</span><span class="p">:</span><span class="s2">&quot;Texas&quot;</span><span class="p">,</span><span class="s2">&quot;33&quot;</span><span class="p">:</span><span class="s2">&quot;Texas&quot;</span><span class="p">,</span><span class="s2">&quot;55&quot;</span><span class="p">:</span><span class="s2">&quot;Texas&quot;</span><span class="p">},</span>
+               <span class="s2">&quot;lat&quot;</span><span class="p">:{</span><span class="s2">&quot;4&quot;</span><span class="p">:</span><span class="mf">32.7935</span><span class="p">,</span><span class="s2">&quot;5&quot;</span><span class="p">:</span><span class="mf">29.786</span><span class="p">,</span><span class="s2">&quot;33&quot;</span><span class="p">:</span><span class="mf">30.3005</span><span class="p">,</span><span class="s2">&quot;55&quot;</span><span class="p">:</span><span class="mf">32.7817</span><span class="p">},</span>
+               <span class="s2">&quot;lng&quot;</span><span class="p">:{</span><span class="s2">&quot;4&quot;</span><span class="p">:</span><span class="o">-</span><span class="mf">96.7667</span><span class="p">,</span><span class="s2">&quot;5&quot;</span><span class="p">:</span><span class="o">-</span><span class="mf">95.3885</span><span class="p">,</span><span class="s2">&quot;33&quot;</span><span class="p">:</span><span class="o">-</span><span class="mf">97.7522</span><span class="p">,</span><span class="s2">&quot;55&quot;</span><span class="p">:</span><span class="o">-</span><span class="mf">97.3474</span><span class="p">}}</span>
+    <span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">tx_json</span><span class="p">)</span>
+    <span class="n">lat</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="s1">&#39;lat&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">values</span>
+    <span class="n">lng</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="s1">&#39;lng&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">values</span>
+    <span class="n">x</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="n">lat</span><span class="p">,</span> <span class="n">lng</span><span class="p">])</span><span class="o">.</span><span class="n">T</span>
+    <span class="n">y</span> <span class="o">=</span> <span class="n">x</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+    <span class="c1"># https://stackoverflow.com/questions/58307211/python-generate-distance-matrix-for-large-number-of-locations</span>
+    <span class="n">answer</span> <span class="o">=</span> <span class="n">cdist</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">metric</span><span class="o">=</span><span class="n">haversine</span><span class="p">,</span> <span class="n">unit</span><span class="o">=</span> <span class="n">Unit</span><span class="o">.</span><span class="n">MILES</span><span class="p">)</span>
+    <span class="n">tx_distances</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([[</span>  <span class="mf">0.</span>        <span class="p">,</span> <span class="mf">223.15619132</span><span class="p">,</span> <span class="mf">181.75853929</span><span class="p">,</span>  <span class="mf">33.74018707</span><span class="p">],</span>
+                           <span class="p">[</span><span class="mf">223.15619132</span><span class="p">,</span>   <span class="mf">0.</span>        <span class="p">,</span> <span class="mf">145.77171262</span><span class="p">,</span> <span class="mf">237.09579454</span><span class="p">],</span>
+                           <span class="p">[</span><span class="mf">181.75853929</span><span class="p">,</span> <span class="mf">145.77171262</span><span class="p">,</span>   <span class="mf">0.</span>        <span class="p">,</span> <span class="mf">173.08331265</span><span class="p">],</span>
+                           <span class="p">[</span> <span class="mf">33.74018707</span><span class="p">,</span> <span class="mf">237.09579454</span><span class="p">,</span> <span class="mf">173.08331265</span><span class="p">,</span>   <span class="mf">0.</span>        <span class="p">]])</span>
+    <span class="n">isvect</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">vectorize</span><span class="p">(</span><span class="n">isclose</span><span class="p">)</span>
+    <span class="k">assert</span> <span class="n">isvect</span><span class="p">(</span><span class="n">answer</span><span class="p">,</span> <span class="n">tx_distances</span><span class="p">,</span> <span class="n">abs_tol</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">all</span><span class="p">(),</span> <span class="s2">&quot;distances are incorrect&quot;</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Test Passed&quot;</span><span class="p">)</span>
+</code></pre></div>
+
+<div class="codehilite"><pre><span></span><code><span class="n">test_haversine</span><span class="p">()</span>
+</code></pre></div>
+
+<div class="codehilite"><pre><span></span><code>Test Passed
+</code></pre></div>
+
+<div class="codehilite"><pre><span></span><code><span class="n">EARTH_RADIUS</span> <span class="o">=</span> <span class="mf">3958.76</span>
+<span class="c1"># Copied from the pgeocode library (along with the zip code lat/lon values)</span>
+<span class="c1"># https://github.com/symerio/pgeocode/blob/96b86f5e8b9569de0dd5eaa37385cb06752bb944/pgeocode.py#L396</span>
+<span class="c1"># note that the docstring is incorrect as this will only work with arrays of shape (1, 2)</span>
+<span class="k">def</span> <span class="nf">haversine_distance</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Haversine (great circle) distance</span>
+<span class="sd">    Calculate the great circle distance between two points</span>
+<span class="sd">    on the earth (specified in decimal degrees)</span>
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    x : array, shape=(n_samples, 2)</span>
+<span class="sd">      the first list of coordinates (degrees)</span>
+<span class="sd">    y : array: shape=(n_samples, 2)</span>
+<span class="sd">      the second list of coordinates (degress)</span>
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    d : array, shape=(n_samples,)</span>
+<span class="sd">      the distance between corrdinates (km)</span>
+<span class="sd">    References</span>
+<span class="sd">    ----------</span>
+<span class="sd">    https://en.wikipedia.org/wiki/Great-circle_distance</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="c1"># if the points are the same, their distance is zero</span>
+    <span class="k">if</span> <span class="n">x</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">==</span> <span class="n">y</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="ow">and</span> <span class="n">x</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">==</span> <span class="n">y</span><span class="p">[</span><span class="mi">1</span><span class="p">]:</span>
+        <span class="k">return</span> <span class="mi">0</span>
+    <span class="n">x_rad</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">radians</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+    <span class="n">y_rad</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">radians</span><span class="p">(</span><span class="n">y</span><span class="p">)</span>
+
+
+    <span class="n">d</span> <span class="o">=</span> <span class="n">y_rad</span> <span class="o">-</span> <span class="n">x_rad</span>
+
+    <span class="n">dlat</span><span class="p">,</span> <span class="n">dlon</span> <span class="o">=</span> <span class="n">d</span><span class="o">.</span><span class="n">T</span>
+    <span class="n">x_lat</span> <span class="o">=</span> <span class="n">x_rad</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+    <span class="n">y_lat</span> <span class="o">=</span> <span class="n">y_rad</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+
+    <span class="n">a</span> <span class="o">=</span> <span class="p">(</span>
+        <span class="n">np</span><span class="o">.</span><span class="n">sin</span><span class="p">(</span><span class="n">dlat</span> <span class="o">/</span> <span class="mf">2.0</span><span class="p">)</span> <span class="o">**</span> <span class="mi">2</span>
+        <span class="o">+</span> <span class="n">np</span><span class="o">.</span><span class="n">cos</span><span class="p">(</span><span class="n">x_lat</span><span class="p">)</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">cos</span><span class="p">(</span><span class="n">y_lat</span><span class="p">)</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">sin</span><span class="p">(</span><span class="n">dlon</span> <span class="o">/</span> <span class="mf">2.0</span><span class="p">)</span> <span class="o">**</span> <span class="mi">2</span>
+    <span class="p">)</span>
+
+    <span class="n">c</span> <span class="o">=</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">arcsin</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">a</span><span class="p">))</span>
+    <span class="k">return</span> <span class="n">EARTH_RADIUS</span> <span class="o">*</span> <span class="n">c</span>
+
+<span class="k">def</span> <span class="nf">hav_dist_no_np</span><span class="p">(</span><span class="n">a_</span><span class="p">,</span> <span class="n">b_</span><span class="p">):</span>
+    <span class="n">res</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">for</span> <span class="n">a</span> <span class="ow">in</span> <span class="n">a_</span><span class="p">:</span>
+        <span class="n">ress</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">for</span> <span class="n">b</span> <span class="ow">in</span> <span class="n">b_</span><span class="p">:</span>
+            <span class="n">ress</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">haversine_distance</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">))</span>
+        <span class="n">res</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">ress</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">res</span>
+</code></pre></div>
+
+<div class="codehilite"><pre><span></span><code><span class="k">def</span> <span class="nf">test_haversine_non_vect</span><span class="p">():</span>
+    <span class="n">tx_json</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;city&quot;</span><span class="p">:{</span><span class="s2">&quot;4&quot;</span><span class="p">:</span><span class="s2">&quot;Dallas&quot;</span><span class="p">,</span><span class="s2">&quot;5&quot;</span><span class="p">:</span><span class="s2">&quot;Houston&quot;</span><span class="p">,</span><span class="s2">&quot;33&quot;</span><span class="p">:</span><span class="s2">&quot;Austin&quot;</span><span class="p">,</span><span class="s2">&quot;55&quot;</span><span class="p">:</span><span class="s2">&quot;Fort Worth&quot;</span><span class="p">},</span>
+               <span class="s2">&quot;state_name&quot;</span><span class="p">:{</span><span class="s2">&quot;4&quot;</span><span class="p">:</span><span class="s2">&quot;Texas&quot;</span><span class="p">,</span><span class="s2">&quot;5&quot;</span><span class="p">:</span><span class="s2">&quot;Texas&quot;</span><span class="p">,</span><span class="s2">&quot;33&quot;</span><span class="p">:</span><span class="s2">&quot;Texas&quot;</span><span class="p">,</span><span class="s2">&quot;55&quot;</span><span class="p">:</span><span class="s2">&quot;Texas&quot;</span><span class="p">},</span>
+               <span class="s2">&quot;lat&quot;</span><span class="p">:{</span><span class="s2">&quot;4&quot;</span><span class="p">:</span><span class="mf">32.7935</span><span class="p">,</span><span class="s2">&quot;5&quot;</span><span class="p">:</span><span class="mf">29.786</span><span class="p">,</span><span class="s2">&quot;33&quot;</span><span class="p">:</span><span class="mf">30.3005</span><span class="p">,</span><span class="s2">&quot;55&quot;</span><span class="p">:</span><span class="mf">32.7817</span><span class="p">},</span>
+               <span class="s2">&quot;lng&quot;</span><span class="p">:{</span><span class="s2">&quot;4&quot;</span><span class="p">:</span><span class="o">-</span><span class="mf">96.7667</span><span class="p">,</span><span class="s2">&quot;5&quot;</span><span class="p">:</span><span class="o">-</span><span class="mf">95.3885</span><span class="p">,</span><span class="s2">&quot;33&quot;</span><span class="p">:</span><span class="o">-</span><span class="mf">97.7522</span><span class="p">,</span><span class="s2">&quot;55&quot;</span><span class="p">:</span><span class="o">-</span><span class="mf">97.3474</span><span class="p">}}</span>
+    <span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">tx_json</span><span class="p">)</span>
+    <span class="n">lat</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="s1">&#39;lat&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">values</span>
+    <span class="n">lng</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="s1">&#39;lng&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">values</span>
+    <span class="n">x</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="n">lat</span><span class="p">,</span> <span class="n">lng</span><span class="p">])</span><span class="o">.</span><span class="n">T</span>
+    <span class="n">y</span> <span class="o">=</span> <span class="n">x</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+    <span class="n">answer</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">hav_dist_no_np</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">))</span>
+    <span class="n">tx_distances</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([[</span>  <span class="mf">0.</span>        <span class="p">,</span> <span class="mf">223.15619132</span><span class="p">,</span> <span class="mf">181.75853929</span><span class="p">,</span>  <span class="mf">33.74018707</span><span class="p">],</span>
+                           <span class="p">[</span><span class="mf">223.15619132</span><span class="p">,</span>   <span class="mf">0.</span>        <span class="p">,</span> <span class="mf">145.77171262</span><span class="p">,</span> <span class="mf">237.09579454</span><span class="p">],</span>
+                           <span class="p">[</span><span class="mf">181.75853929</span><span class="p">,</span> <span class="mf">145.77171262</span><span class="p">,</span>   <span class="mf">0.</span>        <span class="p">,</span> <span class="mf">173.08331265</span><span class="p">],</span>
+                           <span class="p">[</span> <span class="mf">33.74018707</span><span class="p">,</span> <span class="mf">237.09579454</span><span class="p">,</span> <span class="mf">173.08331265</span><span class="p">,</span>   <span class="mf">0.</span>        <span class="p">]])</span>
+    <span class="n">isvect</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">vectorize</span><span class="p">(</span><span class="n">isclose</span><span class="p">)</span>
+    <span class="k">assert</span> <span class="n">isvect</span><span class="p">(</span><span class="n">answer</span><span class="p">,</span> <span class="n">tx_distances</span><span class="p">,</span> <span class="n">abs_tol</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">all</span><span class="p">(),</span> <span class="s2">&quot;distances are incorrect&quot;</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Test Passed&quot;</span><span class="p">)</span>
+</code></pre></div>
+
+<div class="codehilite"><pre><span></span><code><span class="n">test_haversine_non_vect</span><span class="p">()</span>
+</code></pre></div>
+
+<div class="codehilite"><pre><span></span><code>Test Passed
+</code></pre></div>
+
+<h3 id="vectorized">Vectorized<a class="headerlink" href="#vectorized" title="Permanent link">&para;</a></h3>
+<div class="codehilite"><pre><span></span><code><span class="k">def</span> <span class="nf">haversine_vectorized</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Vectorized haversine formual will work with arrays of long/lat coordinates</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    x : array, shape=(n_samples_1, 2)</span>
+<span class="sd">      the first list of coordinates (degrees)</span>
+<span class="sd">    y : array: shape=(n_samples_2, 2)</span>
+<span class="sd">      the second list of coordinates (degress)</span>
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    d : array, shape=(n_samples_1, n_samples_2)</span>
+<span class="sd">      the distance between corrdinates (km)</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">EARTH_RADIUS</span> <span class="o">=</span> <span class="mf">3958.76</span>
+
+    <span class="c1"># convert all latitudes/longitudes from decimal degrees to radians</span>
+    <span class="n">x_rad</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">radians</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+    <span class="n">y_rad</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">radians</span><span class="p">(</span><span class="n">y</span><span class="p">)</span>
+
+    <span class="c1"># unpack latitude/longitude</span>
+    <span class="n">x_lat</span><span class="p">,</span> <span class="n">x_lng</span> <span class="o">=</span> <span class="n">x_rad</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">],</span> <span class="n">x_rad</span><span class="p">[:,</span> <span class="mi">1</span><span class="p">]</span>
+    <span class="n">y_lat</span><span class="p">,</span> <span class="n">y_lng</span> <span class="o">=</span> <span class="n">y_rad</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">],</span> <span class="n">y_rad</span><span class="p">[:,</span> <span class="mi">1</span><span class="p">]</span>
+
+    <span class="c1"># broadcast, can also use np.expand_dims</span>
+    <span class="n">x_lat</span> <span class="o">=</span> <span class="n">x_lat</span><span class="p">[</span><span class="kc">None</span><span class="p">,</span> <span class="p">:]</span>
+    <span class="n">x_lng</span> <span class="o">=</span> <span class="n">x_lng</span><span class="p">[</span><span class="kc">None</span><span class="p">,</span> <span class="p">:]</span>
+    <span class="n">y_lat</span> <span class="o">=</span> <span class="n">y_lat</span><span class="p">[:,</span> <span class="kc">None</span><span class="p">]</span>
+    <span class="n">y_lng</span> <span class="o">=</span> <span class="n">y_lng</span><span class="p">[:,</span> <span class="kc">None</span><span class="p">]</span>
+
+    <span class="c1"># calculate haversine</span>
+    <span class="n">d_lat</span> <span class="o">=</span> <span class="n">y_lat</span> <span class="o">-</span> <span class="n">x_lat</span>
+    <span class="n">d_lng</span> <span class="o">=</span> <span class="n">y_lng</span> <span class="o">-</span> <span class="n">x_lng</span>
+
+    <span class="n">a</span> <span class="o">=</span> <span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">sin</span><span class="p">(</span><span class="n">d_lat</span> <span class="o">/</span> <span class="mf">2.0</span><span class="p">)</span> <span class="o">**</span> <span class="mi">2</span>
+         <span class="o">+</span> <span class="n">np</span><span class="o">.</span><span class="n">cos</span><span class="p">(</span><span class="n">x_lat</span><span class="p">)</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">cos</span><span class="p">(</span><span class="n">y_lat</span><span class="p">)</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">sin</span><span class="p">(</span><span class="n">d_lng</span> <span class="o">/</span> <span class="mf">2.0</span><span class="p">)</span> <span class="o">**</span> <span class="mi">2</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">EARTH_RADIUS</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">arcsin</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">a</span><span class="p">))</span>
+</code></pre></div>
+
+<div class="codehilite"><pre><span></span><code><span class="n">haversine_vectorized</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">)</span>
+</code></pre></div>
+
+<div class="codehilite"><pre><span></span><code>array([[  0.        , 223.15611622, 181.75847812,  33.74017572],
+       [223.15611622,   0.        , 145.77166356, 237.09571474],
+       [181.75847812, 145.77166356,   0.        , 173.0832544 ],
+       [ 33.74017572, 237.09571474, 173.0832544 ,   0.        ]])
+</code></pre></div>
+
+<div class="codehilite"><pre><span></span><code><span class="k">def</span> <span class="nf">test_haversine_vect</span><span class="p">():</span>
+    <span class="n">tx_json</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;city&quot;</span><span class="p">:{</span><span class="s2">&quot;4&quot;</span><span class="p">:</span><span class="s2">&quot;Dallas&quot;</span><span class="p">,</span><span class="s2">&quot;5&quot;</span><span class="p">:</span><span class="s2">&quot;Houston&quot;</span><span class="p">,</span><span class="s2">&quot;33&quot;</span><span class="p">:</span><span class="s2">&quot;Austin&quot;</span><span class="p">,</span><span class="s2">&quot;55&quot;</span><span class="p">:</span><span class="s2">&quot;Fort Worth&quot;</span><span class="p">},</span>
+               <span class="s2">&quot;state_name&quot;</span><span class="p">:{</span><span class="s2">&quot;4&quot;</span><span class="p">:</span><span class="s2">&quot;Texas&quot;</span><span class="p">,</span><span class="s2">&quot;5&quot;</span><span class="p">:</span><span class="s2">&quot;Texas&quot;</span><span class="p">,</span><span class="s2">&quot;33&quot;</span><span class="p">:</span><span class="s2">&quot;Texas&quot;</span><span class="p">,</span><span class="s2">&quot;55&quot;</span><span class="p">:</span><span class="s2">&quot;Texas&quot;</span><span class="p">},</span>
+               <span class="s2">&quot;lat&quot;</span><span class="p">:{</span><span class="s2">&quot;4&quot;</span><span class="p">:</span><span class="mf">32.7935</span><span class="p">,</span><span class="s2">&quot;5&quot;</span><span class="p">:</span><span class="mf">29.786</span><span class="p">,</span><span class="s2">&quot;33&quot;</span><span class="p">:</span><span class="mf">30.3005</span><span class="p">,</span><span class="s2">&quot;55&quot;</span><span class="p">:</span><span class="mf">32.7817</span><span class="p">},</span>
+               <span class="s2">&quot;lng&quot;</span><span class="p">:{</span><span class="s2">&quot;4&quot;</span><span class="p">:</span><span class="o">-</span><span class="mf">96.7667</span><span class="p">,</span><span class="s2">&quot;5&quot;</span><span class="p">:</span><span class="o">-</span><span class="mf">95.3885</span><span class="p">,</span><span class="s2">&quot;33&quot;</span><span class="p">:</span><span class="o">-</span><span class="mf">97.7522</span><span class="p">,</span><span class="s2">&quot;55&quot;</span><span class="p">:</span><span class="o">-</span><span class="mf">97.3474</span><span class="p">}}</span>
+    <span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">tx_json</span><span class="p">)</span>
+    <span class="n">lat</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="s1">&#39;lat&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">values</span>
+    <span class="n">lng</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="s1">&#39;lng&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">values</span>
+    <span class="n">x</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="n">lat</span><span class="p">,</span> <span class="n">lng</span><span class="p">])</span><span class="o">.</span><span class="n">T</span>
+    <span class="n">y</span> <span class="o">=</span> <span class="n">x</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+    <span class="n">answer</span> <span class="o">=</span> <span class="n">haversine_vectorized</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">)</span>
+    <span class="n">tx_distances</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([[</span>  <span class="mf">0.</span>        <span class="p">,</span> <span class="mf">223.15619132</span><span class="p">,</span> <span class="mf">181.75853929</span><span class="p">,</span>  <span class="mf">33.74018707</span><span class="p">],</span>
+                           <span class="p">[</span><span class="mf">223.15619132</span><span class="p">,</span>   <span class="mf">0.</span>        <span class="p">,</span> <span class="mf">145.77171262</span><span class="p">,</span> <span class="mf">237.09579454</span><span class="p">],</span>
+                           <span class="p">[</span><span class="mf">181.75853929</span><span class="p">,</span> <span class="mf">145.77171262</span><span class="p">,</span>   <span class="mf">0.</span>        <span class="p">,</span> <span class="mf">173.08331265</span><span class="p">],</span>
+                           <span class="p">[</span> <span class="mf">33.74018707</span><span class="p">,</span> <span class="mf">237.09579454</span><span class="p">,</span> <span class="mf">173.08331265</span><span class="p">,</span>   <span class="mf">0.</span>        <span class="p">]])</span>
+    <span class="n">isvect</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">vectorize</span><span class="p">(</span><span class="n">isclose</span><span class="p">)</span>
+    <span class="k">assert</span> <span class="n">isvect</span><span class="p">(</span><span class="n">answer</span><span class="p">,</span> <span class="n">tx_distances</span><span class="p">,</span> <span class="n">abs_tol</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">all</span><span class="p">(),</span> <span class="s2">&quot;distances are incorrect&quot;</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Test Passed&quot;</span><span class="p">)</span>
+</code></pre></div>
+
+<div class="codehilite"><pre><span></span><code><span class="n">test_haversine_vect</span><span class="p">()</span>
+</code></pre></div>
+
+<div class="codehilite"><pre><span></span><code>Test Passed
+</code></pre></div>
+
+<h3 id="speed-check_1">Speed Check<a class="headerlink" href="#speed-check_1" title="Permanent link">&para;</a></h3>
+<p>Test with small arrays leads to 10x speedup</p>
+<div class="codehilite"><pre><span></span><code><span class="o">%%</span><span class="n">timeit</span>
+<span class="n">haversine_vectorized</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">)</span>
+</code></pre></div>
+
+<div class="codehilite"><pre><span></span><code>7.86 µs ± 42 ns per loop (mean ± std. dev. of 7 runs, 100,000 loops each)
+</code></pre></div>
+
+<div class="codehilite"><pre><span></span><code><span class="o">%%</span><span class="n">timeit</span>
+<span class="n">hav_dist_no_np</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">)</span>
+</code></pre></div>
+
+<div class="codehilite"><pre><span></span><code>62.4 µs ± 434 ns per loop (mean ± std. dev. of 7 runs, 10,000 loops each)
+</code></pre></div>
+
+<p>Test with large arrays leads to &gt;1000x speedup</p>
+<div class="codehilite"><pre><span></span><code><span class="o">%%</span><span class="n">timeit</span>
+<span class="n">haversine_vectorized</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">tile</span><span class="p">(</span><span class="n">x</span><span class="o">.</span><span class="n">T</span><span class="p">,</span><span class="mi">1000</span><span class="p">)</span><span class="o">.</span><span class="n">T</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">tile</span><span class="p">(</span><span class="n">x</span><span class="o">.</span><span class="n">T</span><span class="p">,</span><span class="mi">1000</span><span class="p">)</span><span class="o">.</span><span class="n">T</span><span class="p">)</span>
+</code></pre></div>
+
+<div class="codehilite"><pre><span></span><code>277 ms ± 1.65 ms per loop (mean ± std. dev. of 7 runs, 1 loop each)
+</code></pre></div>
+
+<div class="codehilite"><pre><span></span><code><span class="o">%%</span><span class="n">timeit</span>
+<span class="n">hav_dist_no_np</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">tile</span><span class="p">(</span><span class="n">x</span><span class="o">.</span><span class="n">T</span><span class="p">,</span><span class="mi">1000</span><span class="p">)</span><span class="o">.</span><span class="n">T</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">tile</span><span class="p">(</span><span class="n">x</span><span class="o">.</span><span class="n">T</span><span class="p">,</span><span class="mi">1000</span><span class="p">)</span><span class="o">.</span><span class="n">T</span><span class="p">)</span>
+</code></pre></div>
+
+<div class="codehilite"><pre><span></span><code>1min 1s ± 285 ms per loop (mean ± std. dev. of 7 runs, 1 loop each)
+</code></pre></div>
+
+              
+            </article>
+            
+          </div>
+        </div>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+    
+    <nav class="md-footer__inner md-grid" aria-label="Footer" >
+      
+        
+        <a href=".." class="md-footer__link md-footer__link--prev" aria-label="Previous: About" rel="prev">
+          <div class="md-footer__button md-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12Z"/></svg>
+          </div>
+          <div class="md-footer__title">
+            <div class="md-ellipsis">
+              <span class="md-footer__direction">
+                Previous
+              </span>
+              About
+            </div>
+          </div>
+        </a>
+      
+      
+    </nav>
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    <script id="__config" type="application/json">{"base": "..", "features": [], "search": "../assets/javascripts/workers/search.b97dbffb.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.config.lang": "en", "search.config.pipeline": "trimmer, stopWordFilter", "search.config.separator": "[\\s\\-]+", "search.placeholder": "Search", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version.title": "Select version"}}</script>
+    
+    
+      <script src="../assets/javascripts/bundle.6c7ad80a.min.js"></script>
+      
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.0/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+      
+    
+  </body>
+</html>
