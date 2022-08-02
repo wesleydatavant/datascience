@@ -2,9 +2,9 @@
 layout: default
 ---
 
-# Deka
+# Data Science
 
-Deka is a project that builds optimum stock cutting patterns for manufacturers
+A python repository containing data science notebooks and algorithms
 
-Visit the [github repo](https://github.com/wesleybeckner/deka) to access all materials and code for this project
+Visit the [github repo](https://github.com/wesleybeckner/deka) to access all materials and code
 

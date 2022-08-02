@@ -1,4 +1,4 @@
-site_name: Deka
+site_name: Data Science
 theme:
   name: "material"
   # custom_dir: overrides
@@ -15,16 +15,7 @@ theme:
         name: Switch to light mode
 nav:
   - About: index.md
-  - Solutions:
-      - The Knapsack Problem: solutions/SOLN_P1_Stock_Cutting.md
-      - Finding More Patterns: solutions/SOLN_P2_Stock_Cutting.md
-      - The Column Generation Method: solutions/SOLN_P3_Stock_Cutting.md
-      - Unit Tests: solutions/SOLN_P4_Stock_Cutting.md
-      - Edge Cases: solutions/SOLN_P5_Stock_Cutting.md
-  - Exercises:
-      - The Knapsack Problem: exercises/P1_Stock_Cutting.md
-      - Finding More Patterns: exercises/P2_Stock_Cutting.md
-      - The Column Generation Method: exercises/P3_Stock_Cutting.md
+  - Vectorized Distance Calculations: Routing_Distances.md
 markdown_extensions:
   - admonition
   - codehilite:

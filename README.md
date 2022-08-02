@@ -1,15 +1,7 @@
-# deka
+# Data Science
 
-[visit the site](https://wesleybeckner.github.io/deka/)
+[visit the site](https://wesleydatavant.github.io/datascience/)
 
-Deka is a python library containing a column generation/knapsack solution algorithm
+A python repository containing data science notebooks and algorithms
 
-1. The Knapsack problem
-2. Finding Other Patterns
-3. The Column Generation Method
-4. Unit Tests
-4. Multithread processing
-5. API and messaging
-6. Data archiving
-7. Monitoring
-8. Future work
+1. Routing Distances
