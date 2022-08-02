@@ -11,6 +11,8 @@ table {
   --md-primary-fg-color--light: #d499af;
   --md-primary-fg-color--dark:  #d4024f;
 }
-[data-md-color-scheme="slate"] {
-  --md-hue: 210; 
+[data-md-color-scheme="default"] {
+  --md-primary-fg-color:        #D37295;
+  --md-primary-fg-color--light: #d499af;
+  --md-primary-fg-color--dark:  #d4024f;
 }
