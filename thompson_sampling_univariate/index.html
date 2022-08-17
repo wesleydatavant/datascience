@@ -414,8 +414,8 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#demonstration-three-updating-theta-and-x" class="md-nav__link">
-    Demonstration Three: Updating \(\theta\) and \(X\)
+  <a href="#demonstration-three-updating-parameters" class="md-nav__link">
+    Demonstration Three: Updating Parameters
   </a>
   
 </li>
@@ -618,8 +618,8 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#demonstration-three-updating-theta-and-x" class="md-nav__link">
-    Demonstration Three: Updating \(\theta\) and \(X\)
+  <a href="#demonstration-three-updating-parameters" class="md-nav__link">
+    Demonstration Three: Updating Parameters
   </a>
   
 </li>
@@ -700,7 +700,7 @@
 <h2 id="problem-overview">Problem Overview<a class="headerlink" href="#problem-overview" title="Permanent link">&para;</a></h2>
 <p>You’re hunting for Pokemon in some forested area outside of Pewter City, divided into four regions. You know that in each region, the probability of finding one of either Charmander, Bulbasaur or Pikachu willl vary. Given a region, which pokemon are we most likely to find?</p>
 <p><center>
-<img src="static/Routing_ Model Development 8.19.22.jpeg" width=600px></img>
+<img src="https://raw.githubusercontent.com/wesleydatavant/datascience/main/notebooks/static/Routing_%20Model%20Development%208.19.22.jpeg" width=600px></img>
 </center></p>
 <p>Intuitively, we would expect distances between regions to have some relationship with the similarity in probability distributions.</p>
 <p>For the purpose of demonstrating the algorithm, imagine that you are going to spend many iterations searching through each region, and every time you search a region you can only check for one of the three pokemon. </p>
@@ -1322,17 +1322,17 @@ Region 3: 0.38, Pokemon 0
 </script>
 </p>
 <p>where </p>
-<p>$X$ : the context coefficient matrix <br>
-$\theta$ : estimated success probabilities <br>
-$t$: current time step <br>
-$p$: available regions <br>
-$k$: available targets/actions (pokemon 0, 1, 2) <br>
-$x_t$: the target selected/action taken <br>
-$y_t$: the current region <br>
-$r_t$: the reward of selected target (0 or 1) <br>
-$\alpha$ : alpha parameter of the beta distribution <br>
-$\beta$ : beta parameter of the beta distribution <br>
-$\eta$ : context learning rate <br></p>
+<p>\(X\) : the context coefficient matrix <br>
+\(\theta\) : estimated success probabilities <br>
+\(t\): current time step <br>
+\(p\): available regions <br>
+\(k\): available targets/actions (pokemon 0, 1, 2) <br>
+\(x_t\): the target selected/action taken <br>
+\(y_t\): the current region <br>
+\(r_t\): the reward of selected target (0 or 1) <br>
+\(\alpha\) : alpha parameter of the beta distribution <br>
+\(\beta\) : beta parameter of the beta distribution <br>
+\(\eta\) : context learning rate <br></p>
 <div class="codehilite"><pre><span></span><code><span class="c1">### SETUP THE SIMULATION PARAMETERS ###</span>
 <span class="c1"># SIM SETUP</span>
 <span class="n">num_pokemon</span> <span class="o">=</span> <span class="mi">3</span>
@@ -1467,8 +1467,8 @@ so the final expected value matrix is:
 <div class="codehilite"><pre><span></span><code>and pokemon 2 is selected this round
 </code></pre></div>
 
-<h3 id="demonstration-three-updating-theta-and-x">Demonstration Three: Updating \(\theta\) and \(X\)<a class="headerlink" href="#demonstration-three-updating-theta-and-x" title="Permanent link">&para;</a></h3>
-<p>We've shown how a pokemon is sampled with the contextualized univariate TS algorithm, but how are parameters updated when the chosen target is successful or not?</p>
+<h3 id="demonstration-three-updating-parameters">Demonstration Three: Updating Parameters<a class="headerlink" href="#demonstration-three-updating-parameters" title="Permanent link">&para;</a></h3>
+<p>We've shown how a pokemon is sampled with the contextualized univariate TS algorithm, but how are parameters updated when the chosen target is successful or not? In this demonstration we will focus on updating the parameters \(\theta\) and \(X\).</p>
 <p>In the simple case, we update the beta parameters for the current region to reflect this result. However, we would like to also update the contextual weighting matrix</p>
 <p>
 <script type="math/tex; mode=display">
