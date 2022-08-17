@@ -16,6 +16,7 @@ theme:
 nav:
   - About: index.md
   - Vectorized Distance Calculations: vectorized_distances.md
+  - Thompson Sampling: thompson_sampling_univariate.md
 markdown_extensions:
   - admonition
   - codehilite:
