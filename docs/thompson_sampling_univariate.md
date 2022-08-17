@@ -42,7 +42,7 @@ pd.set_option('display.max_rows', 500)
 You’re hunting for Pokemon in some forested area outside of Pewter City, divided into four regions. You know that in each region, the probability of finding one of either Charmander, Bulbasaur or Pikachu willl vary. Given a region, which pokemon are we most likely to find?
 
 <center>
-<img src="static/Routing_ Model Development 8.19.22.jpeg" width=600px></img>
+<img src="https://raw.githubusercontent.com/wesleydatavant/datascience/main/notebooks/static/Routing_%20Model%20Development%208.19.22.jpeg" width=600px></img>
 </center>
 
 Intuitively, we would expect distances between regions to have some relationship with the similarity in probability distributions.
@@ -887,17 +887,17 @@ $$
 
 where 
 
-$X$ : the context coefficient matrix <br>
-$\theta$ : estimated success probabilities <br>
-$t$: current time step <br>
-$p$: available regions <br>
-$k$: available targets/actions (pokemon 0, 1, 2) <br>
-$x_t$: the target selected/action taken <br>
-$y_t$: the current region <br>
-$r_t$: the reward of selected target (0 or 1) <br>
-$\alpha$ : alpha parameter of the beta distribution <br>
-$\beta$ : beta parameter of the beta distribution <br>
-$\eta$ : context learning rate <br>
+\\(X\\) : the context coefficient matrix <br>
+\\(\theta\\) : estimated success probabilities <br>
+\\(t\\): current time step <br>
+\\(p\\): available regions <br>
+\\(k\\): available targets/actions (pokemon 0, 1, 2) <br>
+\\(x_t\\): the target selected/action taken <br>
+\\(y_t\\): the current region <br>
+\\(r_t\\): the reward of selected target (0 or 1) <br>
+\\(\alpha\\) : alpha parameter of the beta distribution <br>
+\\(\beta\\) : beta parameter of the beta distribution <br>
+\\(\eta\\) : context learning rate <br>
 
 
 ```python
@@ -1053,9 +1053,9 @@ print(f"and pokemon {np.argmax(samples.T.dot(coeffs))} is selected this round")
     and pokemon 2 is selected this round
 
 
-### Demonstration Three: Updating \\(\theta\\) and \\(X\\)
+### Demonstration Three: Updating Parameters
 
-We've shown how a pokemon is sampled with the contextualized univariate TS algorithm, but how are parameters updated when the chosen target is successful or not?
+We've shown how a pokemon is sampled with the contextualized univariate TS algorithm, but how are parameters updated when the chosen target is successful or not? In this demonstration we will focus on updating the parameters \\(\theta\\) and \\(X\\).
 
 In the simple case, we update the beta parameters for the current region to reflect this result. However, we would like to also update the contextual weighting matrix
 
